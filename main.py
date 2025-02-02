@@ -33,7 +33,7 @@ if query:
         print(search_params)
         
         # Ensure the LLM extracted necessary details
-        if search_params.get("product_type") and search_params.get("size"):
+        if search_params.get("product_type"):
             # Call the agent to fetch product data
             search_results = st.session_state.products.handle_search_request(search_params)
             #pretty print the search results
@@ -41,7 +41,7 @@ if query:
             answer_results = st.session_state.products.run_answer_chain(search_results,query)
             st.session_state.history.append({"query": query, "response": answer_results})
         else:
-            st.session_state.history.append({"query": query, "response": "Missing required details. Please provide product type and size."})
+            st.session_state.history.append({"query": query, "response": "Missing required details. Please provide product type"})
     
     except json.JSONDecodeError:
         st.session_state.history.append({"query": query, "response": response})  # If not JSON, just display as is
