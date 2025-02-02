@@ -40,8 +40,11 @@ def flipkart_search(search_query, existing_product,color="", price_range="", siz
             return req_data
         else:
             pass
-
-    api_url = f'https://www.flipkart.com/search?q={search_query}'
+    in_query_list = str(search_query).split(" ")
+    api_url = "https://www.flipkart.com/search?q="
+    for q in in_query_list:
+        api_url+=q
+        api_url+="%20"
     
     if color:
         api_url += f'&p%5B%5D=facets.color%255B%255D%3D{color}'
@@ -53,8 +56,11 @@ def flipkart_search(search_query, existing_product,color="", price_range="", siz
         max_price=max_price.replace("₹","")
         api_url += f'&p%5B%5D=facets.price_range.from%3D{min_price}&p%5B%5D=facets.price_range.to%3D{max_price}'
     if size:
-        size = size.capitalize()
-        api_url += f'&p%5B%5D=facets.size%255B%255D%3D{size}'
+        if search_query=="shoes" or search_query=="sneakers":
+            api_url+=f'&p%5B%5D=facets.uk_india_size%255B%255D%3D{size}'
+        else:
+            size = size.capitalize()
+            api_url += f'&p%5B%5D=facets.size%255B%255D%3D{size}'
     if brand:
         api_url += f'&p%5B%5D=facets.brand%255B%255D%3D{brand}'
 
