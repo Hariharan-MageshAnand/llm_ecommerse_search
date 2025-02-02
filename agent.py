@@ -1,4 +1,4 @@
-from tool import flipkart_search,select_best_product
+from tool import flipkart_search,myntra_search
 from langchain.llms import Ollama
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
@@ -115,5 +115,5 @@ class Ecommerce_agent:
 
         # Call the function from tool.py
         product_data = flipkart_search(search_query, self ,color, price_range, size, brand)
-
+        myntra_search(search_query, self ,color, price_range, size, brand)
         return product_data

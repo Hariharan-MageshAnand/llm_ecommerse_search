@@ -154,3 +154,32 @@ def flipkart_search(search_query, existing_product,color="", price_range="", siz
                 discount_inc+=1
     existing_product.add_data(product_data_list)
     return product_data_list
+
+def myntra_search(search_query, existing_product,color="", price_range="", size="",brand=""):
+    in_query_list = str(search_query).split(" ")
+    api_url = "https://www.myntra.com/"
+    for q in in_query_list:
+            api_url+=q
+            api_url+="%20"
+    api_url+="?"
+    if color:
+            api_url+= f'f=Color%3AWhite{color}'
+    if price_range:
+        min_price,max_price = price_range.split('-')
+        min_price=min_price.replace("$","")
+        min_price=min_price.replace("₹","")
+        max_price=max_price.replace("$","")
+        max_price=max_price.replace("₹","")
+        if "f=" not in api_url:
+            api_url+="f="
+        api_url+=f'Price3A{float(min_price)}_{float(max_price)}_{float(min_price)}%20TO%20{float(max_price)}'
+        api_url.replace("Price%3A","Price3A")
+    if size:
+        if "f=" not in api_url:
+            api_url+="f="
+        api_url+=f'size_facet%3A{size}'
+    if brand:
+        if "f=" not in api_url:
+            api_url+='f='
+        api_url+=f'Brand%3A{brand}'
+    print(api_url)
