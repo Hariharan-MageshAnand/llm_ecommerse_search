@@ -6,7 +6,6 @@ import json
 
 if "products" not in st.session_state:
     st.session_state.products = Ecommerce_agent()  # Persist product data
-# Define a strict prompt template
 # Streamlit app
 st.title("🛍️ E-commerce Search Assistant")
 
@@ -17,7 +16,7 @@ if "history" not in st.session_state:
 query = st.text_input("Enter your search query:")
 
 if query:
-    response = st.session_state.products.run_search_chain(query=query)
+    response = st.session_state.products.run_search_chain(query=query) # initiating first agent to search product in flipkart
     response = str(response).replace("'",'"')
     response=response.replace("Action:","")
     try:
@@ -28,14 +27,13 @@ if query:
         # Ensure the LLM extracted necessary details
         if search_params.get("product_type"):
             # Call the agent to fetch product data
-            search_results = st.session_state.products.handle_search(search_params)
+            search_results = st.session_state.products.handle_search(search_params) # calling handle search tool and passing the json created by the agent
             st.session_state.products.add_data(search_results)
-            #pretty print the search results
             search_results = json.dumps(search_results, indent=4)
-            final_results = st.session_state.products.run_tool_chain(query)
+            final_results = st.session_state.products.run_tool_chain(query) # running tool agent to find what type of query is it 
             st.session_state.history.append({"query": query, "response": final_results})
         else:
-            st.session_state.history.append({"query": query, "response": "Missing required details. Please provide product type"})
+            st.session_state.history.append({"query": query, "response": "Missing required details. Please provide product type"}) # return this error in chat if product type is not mentioned
     
     except Exception as e:
         print(e)

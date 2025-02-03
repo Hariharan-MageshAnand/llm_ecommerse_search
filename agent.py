@@ -101,12 +101,9 @@ class Ecommerce_agent:
         return self.agent.run(query)
     def run_tool_chain(self,query):
         data = self.tool_agent.run(query)
-        print("lsdnfslafasf",data)
         data=str(data).replace("Action: ","")
         data = data.replace("'",'"')
-        print("ksjdhfa",data)
         params = json.loads(data)
-        print("asdfhasd",params)
         return self.tool_dict[params["action"]](params["action_input"])
     
     
