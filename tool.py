@@ -2,8 +2,6 @@ import random
 import requests
 from bs4 import BeautifulSoup
 import json
-from pydantic import BaseModel
-from typing import Optional
 
 class Agent_tool:
     """
@@ -56,17 +54,17 @@ class Agent_tool:
         print("total data",len(product_data))
         return product_data
     
-    def return_policy_check(self,params):
+    def return_policy_check(self,*args, **kwargs):
         product_data = self.agent.return_data()
         for product in product_data:
             if product["Return"]!=0:
                 return f"The maximum return day for this product {product['Product_Title']} is {product['Return']} days"
         return f"No return for this product {product['Product_Title']}"
-    def delivery_policy_check(self,params):
+    def delivery_policy_check(self,*args, **kwargs):
         product_data  = self.agent.return_data()
         product_data= product_data[0]
         return f"The delivery time are approximately {product_data['Delivery_Date']}"
-    def site_compare_check(self,params):
+    def site_compare_check(self,*args, **kwargs):
         product_data  = self.agent.return_data()
         siteA=None
         siteB=None
@@ -79,7 +77,7 @@ class Agent_tool:
             return f"The product {siteA['Product_Title']} from Site A is better"
         else:
             return f"The product {siteB['Product_Title']} from Site B is better"
-    def best_discount(self,discount_code = ""):
+    def best_discount(self,discount_code = "",*args, **kwargs):
         
         product_data = self.agent.return_data()
         if discount_code=="":
@@ -88,7 +86,10 @@ class Agent_tool:
             best_product = sorted_products[0]
             return f"this product {best_product['Product_Title']} from brand {best_product['Brand_Name']} on site {best_product['Site']} have the best discount with product prize {best_product['Product_Price']}"
         else:
-            discount_code = discount_code["tool_input"]
+            try:
+                discount_code = discount_code["tool_input"]
+            except:
+                pass
             print("discount code",discount_code)
             for product in product_data:
                 if product["Discount"]==discount_code:
