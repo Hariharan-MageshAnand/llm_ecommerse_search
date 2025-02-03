@@ -1,7 +1,4 @@
 import streamlit as st
-from langchain.llms import Ollama
-from langchain.chains import LLMChain
-from langchain.prompts import PromptTemplate
 from agent import Ecommerce_agent
 import json
 
