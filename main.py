@@ -21,30 +21,29 @@ query = st.text_input("Enter your search query:")
 
 if query:
     response = st.session_state.products.run_search_chain(query=query)
-
+    response = str(response).replace("'",'"')
+    response=response.replace("Action:","")
     try:
-        # Attempt to parse LLM response as JSON
-        if '{' in str(response):  # Check if JSON-like
-            #extract the json object from the response
-            start_index = str(response).find('{')
-            end_index = str(response).rfind('}')
-            response = str(response)[start_index:end_index+1]
+        
         search_params = json.loads(response)
-        print(search_params)
+        search_params = search_params["action_input"]
         
         # Ensure the LLM extracted necessary details
         if search_params.get("product_type"):
             # Call the agent to fetch product data
-            search_results = st.session_state.products.handle_search_request(search_params)
+            search_results = st.session_state.products.handle_search(search_params)
+            st.session_state.products.add_data(search_results)
             #pretty print the search results
             search_results = json.dumps(search_results, indent=4)
-            answer_results = st.session_state.products.run_answer_chain(search_results,query)
-            st.session_state.history.append({"query": query, "response": answer_results})
+            final_results = st.session_state.products.run_tool_chain(query)
+            st.session_state.history.append({"query": query, "response": final_results})
         else:
             st.session_state.history.append({"query": query, "response": "Missing required details. Please provide product type"})
     
-    except json.JSONDecodeError:
+    except Exception as e:
+        print(e)
         st.session_state.history.append({"query": query, "response": response})  # If not JSON, just display as is
+    print("complete")
 
 # Display chat history in an always-expanded format
 st.subheader("📜 Chat History")
