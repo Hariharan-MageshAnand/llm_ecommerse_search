@@ -14,7 +14,7 @@ This project is an E-commerce Search Application built using Streamlit.
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/yourusername/llm_ecommerse_search.git
+    git clone https://github.com/Hariharan-MageshAnand/llm_ecommerse_search.git
     ```
 2. Navigate to the project directory:
     ```bash
