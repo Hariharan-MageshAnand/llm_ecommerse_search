@@ -38,7 +38,7 @@ This project is an E-commerce Search Application built using Streamlit.
 
 1. Run the Streamlit application:
     ```bash
-    streamlit run app.py
+    streamlit run main.py
     ```
 2. Open your web browser and go to `http://localhost:8501` to access the application.
 
