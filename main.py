@@ -7,7 +7,7 @@ import json
 if "products" not in st.session_state:
     st.session_state.products = Ecommerce_agent()  # Persist product data
 # Streamlit app
-st.title("🛍️ E-commerce Search Assistant")
+st.title("🛍️ Personal E-commerce Search Assistant")
 
 # Initialize session state to store history
 if "history" not in st.session_state:
