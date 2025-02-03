@@ -5,13 +5,6 @@ import json
 from pydantic import BaseModel
 from typing import Optional
 
-class ProductSearchInput(BaseModel):
-    product_type: str
-    color: Optional[str] = ""
-    brand: Optional[str] = ""
-    price_range: Optional[str] = ""
-    size: Optional[str] = ""
-    discount: Optional[str] = ""
 class Agent_tool:
     """
     Agent_tool is a class designed to handle various e-commerce related tasks such as searching for products,
@@ -229,6 +222,7 @@ class Agent_tool:
         return product_data_list
 
     def myntra_search(self,search_query,color="", price_range="", size="",brand=""):
+        # not using this function implemented till url generation further development needed
         in_query_list = str(search_query).split(" ")
         api_url = "https://www.myntra.com/"
         for q in in_query_list:
